@@ -11,15 +11,18 @@ class App extends Component {
     super(props);
     this.state = {
       dataSource: [],
-      loading: false,
+      loading: true,
     };
     this.searchEvent = this.searchEvent.bind(this);
   }
 
   componentDidMount() {
     databaseRef.on('value', (span) => {
-      const dataList = Object.values(span.val());
-      this.setState({ dataSource: dataList });
+      const dataList = Object.values(span.val()).reverse();
+      this.setState({
+        dataSource: dataList,
+        loading: false,
+      });
     });
   }
 
@@ -37,7 +40,7 @@ class App extends Component {
   render() {
     const { Search } = Input;
     const { dataSource, loading } = this.state;
-    const page = { defaultPageSize: 5 };
+    const paginationConfig = { defaultPageSize: 5 };
     return (
       <div className="App">
         <h1>Github User Aggregator</h1>
@@ -50,7 +53,7 @@ class App extends Component {
         <br /><br />
         <Spin spinning={loading} size="large" />
         <Divider />
-        <Table columns={tableColumns} dataSource={dataSource} pagination={page} />
+        <Table columns={tableColumns} dataSource={dataSource} pagination={paginationConfig} />
       </div>
     );
   }

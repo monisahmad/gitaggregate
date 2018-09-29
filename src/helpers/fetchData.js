@@ -1,12 +1,13 @@
 import databaseRef from '../config/firebase';
+import { githubApi } from '../config/apiRoutes';
 
 const fetchData = async (username) => {
-  const response = await fetch(`https://api.github.com/users/${username}`);
+  const response = await fetch(`${githubApi}${username}`);
   const data = await response.json();
   if (data.message === 'Not Found') {
     return false;
   }
-  const formatedDate = new Date(data.created_at).toLocaleDateString('en-US');
+  const formattedDate = new Date(data.created_at).toLocaleDateString('en-US');
   const dataSource = {
     key: data.node_id,
     username: data.login,
@@ -15,7 +16,7 @@ const fetchData = async (username) => {
     public_gists: data.public_gists,
     followers: data.followers,
     following: data.following,
-    created_at: formatedDate,
+    created_at: formattedDate,
   };
   try {
     await databaseRef.push(dataSource);

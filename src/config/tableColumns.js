@@ -1,7 +1,7 @@
 import React from 'react';
 
 const tableColumns = [{
-  title: 'username',
+  title: 'Username',
   dataIndex: 'username',
   key: 'username',
   render: text => (<a href={`https://github.com/${text}`}>{text}</a>),
