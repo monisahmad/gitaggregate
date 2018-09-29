@@ -17,8 +17,8 @@ class App extends Component {
   }
 
   componentDidMount() {
-    databaseRef.on('value', (span) => {
-      const dataList = Object.values(span.val()).reverse();
+    databaseRef.on('value', (snap) => {
+      const dataList = Object.values(snap.val()).reverse();
       this.setState({
         dataSource: dataList,
         loading: false,
